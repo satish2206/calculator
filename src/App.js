@@ -1,25 +1,59 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from "react";
 
-function App() {
+
+export default function App() {
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState("");
+  const buttons = [
+    "7",
+    "8",
+    "9",
+    "+",
+    "4",
+    "5",
+    "6",
+    "-",
+    "1",
+    "2",
+    "3",
+    "*",
+    "0",
+    "/",
+    "C",
+  ];
+
+  const buttonclick = (value) => {
+    setInput((prevInput) => prevInput + value);
+  };
+  const EqualClick = () => {
+    try {
+      setResult(eval(input).toString());
+    } catch (error) {
+      setResult("Error");
+    }
+  };
+
+  const clearclick = () => {
+    setInput("");
+    setResult("");
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="calculator">
+      <input type="text" value={input} readOnly />
+      <div className="result">{result}</div>
+      <div className="buttons">
+        {buttons.map((value, index) => (
+          <button
+            key={index}
+            onClick={() => (value === "C" ? clearclick() : buttonclick(value))}
+          >
+            {value}
+          </button>
+        ))}
+        <button onClick={() => EqualClick()}>=</button>
+      </div>
     </div>
   );
 }
-
-export default App;
